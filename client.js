@@ -1,8 +1,9 @@
 if (Meteor.isClient) {
+  // This is executed each time the app restarts or page refresh
   Meteor.startup(function () {
     Session.set('currentView', 'hello');
-
     Backbone.history.start({pushState: true});
+    Router.hello();
   });
 
   Accounts.ui.config({
