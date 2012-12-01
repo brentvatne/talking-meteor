@@ -4,7 +4,7 @@
 
 <body>
     {{#if currentUser}}
-    <h1>Welcome!</h1>
+    <h1>Van.io Talk</h1>
   {{else}}
     <h1>Sign in to start a persistent conversation with another user!</h1>
   {{/if}}
@@ -12,40 +12,44 @@
 </body>
 
 <template name="hello">
-  <div class="two columns">
-  {{loginButtons}}
-  <h3>Chat with:</h3>
-    {{#each otherUsers}}
-      <a href="#" class="start-conversation" data-id="{{this._id}}">
-        {{this.profile.name}}
-      </a>
-      <br/>
-    {{/each}}
-  </div>
-  <div class="ten columns">
-    <p>Ole!</p>
+  <div class="row-fluid">
+    <div class="span2">
+    {{loginButtons}}
+    <h3>Chat with:</h3>
+      {{#each otherUsers}}
+        <a href="#" class="start-conversation" data-id="{{this._id}}">
+          {{this.profile.name}}
+        </a>
+        <br/>
+      {{/each}}
+    </div>
+    <div class="span10">
+      <p>Ole!</p>
+    </div>
   </div>
 </template>
 
 <template name="conversation">
-  <div class="two columns">
-  {{loginButtons}}
-  <h3>Chat with:</h3>
-    {{#each otherUsers}}
-      <a href="#" class="start-conversation" data-id="{{this._id}}">
-        {{this.profile.name}}
-      </a>
-      <br/>
-    {{/each}}
-  </div>
-  <div class="ten columns">
-    {{#each messages}}
-      {{this.sender}}: {{this.text}}<br/>
-    {{/each}}
+  <div class="row-fluid">
+    <div class="span2">
+    {{loginButtons}}
+    <h3>Chat with:</h3>
+      {{#each otherUsers}}
+        <a href="#" class="start-conversation" data-id="{{this._id}}">
+          {{this.profile.name}}
+        </a>
+        <br/>
+      {{/each}}
+    </div>
+    <div class="span10">
+      {{#each messages}}
+        {{this.sender}}: {{this.text}}<br/>
+      {{/each}}
 
-    <form class="new-message-form">
-      <input type="text" class="new-message-text"/>
-      <button class="submit">Send</button>
-    </form>
+      <form class="new-message-form">
+        <input type="text" class="new-message-text"/>
+        <button class="submit">Send</button>
+      </form>
+    </div>
   </div>
 </template>
