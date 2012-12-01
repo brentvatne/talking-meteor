@@ -22,6 +22,10 @@ if (Meteor.isClient) {
     return Meteor.users.find({_id: { $ne: Meteor.userId() }});
   };
 
+  Template.conversation.otherUsers = function() {
+    return Meteor.users.find({_id: { $ne: Meteor.userId() }});
+  }; //there's got to be a more elegant way to do this...
+
   Template.hello.events({
     'click .start-conversation' : function(e) {
       e.preventDefault();
@@ -48,7 +52,20 @@ if (Meteor.isClient) {
       }, function(err, result) {
         // Do nothing
       });
-    }
+    },
+
+    'click .start-conversation' : function(e) {
+      e.preventDefault();
+      var userId = $(e.target).data('id');
+
+      // Create the conversation
+      var conversationId = Meteor.call('findOrCreateConversation', {
+        firstUserId: Meteor.userId(),
+        secondUserId: userId
+      }, function(err, conversationId) {
+        Router.conversation(conversationId);
+      });
+    } //again, more elegance here would be nice...
   });
 
   Template.conversation.messages = function() {
@@ -66,5 +83,17 @@ if (Meteor.isClient) {
       if (Template[name])
         return Template[name]();
     });
+
   }
 }
+
+
+
+
+
+
+
+
+
+
+

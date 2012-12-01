@@ -3,18 +3,18 @@
 </head>
 
 <body>
-  {{{render currentView}}}
-</body>
-
-<template name="hello">
-  {{#if currentUser}}
+    {{#if currentUser}}
     <h1>Welcome!</h1>
   {{else}}
     <h1>Sign in to start a persistent conversation with another user!</h1>
   {{/if}}
+  {{{render currentView}}}
+</body>
+
+<template name="hello">
   <div class="two columns">
-    {{loginButtons}}
-    <h3>Chat with:</h3>
+  {{loginButtons}}
+  <h3>Chat with:</h3>
     {{#each otherUsers}}
       <a href="#" class="start-conversation" data-id="{{this._id}}">
         {{this.profile.name}}
@@ -23,17 +23,29 @@
     {{/each}}
   </div>
   <div class="ten columns">
-    {{allConversations}}
+    <p>Ole!</p>
   </div>
 </template>
 
 <template name="conversation">
-  {{#each messages}}
-    {{this.sender}}: {{this.text}}<br/>
-  {{/each}}
+  <div class="two columns">
+  {{loginButtons}}
+  <h3>Chat with:</h3>
+    {{#each otherUsers}}
+      <a href="#" class="start-conversation" data-id="{{this._id}}">
+        {{this.profile.name}}
+      </a>
+      <br/>
+    {{/each}}
+  </div>
+  <div class="ten columns">
+    {{#each messages}}
+      {{this.sender}}: {{this.text}}<br/>
+    {{/each}}
 
-  <form class="new-message-form">
-    <input type="text" class="new-message-text"/>
-    <button class="submit">Send</button>
-  </form>
+    <form class="new-message-form">
+      <input type="text" class="new-message-text"/>
+      <button class="submit">Send</button>
+    </form>
+  </div>
 </template>
