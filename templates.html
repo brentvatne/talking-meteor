@@ -7,7 +7,11 @@
 </body>
 
 <template name="hello">
-  <h1>Sign in to start a persistent conversation with another user!</h1>
+  {{#if currentUser}}
+    <h1>Welcome!</h1>
+  {{else}}
+    <h1>Sign in to start a persistent conversation with another user!</h1>
+  {{/if}}
   <div class="two columns">
     {{loginButtons}}
     <h3>Chat with:</h3>
@@ -19,6 +23,7 @@
     {{/each}}
   </div>
   <div class="ten columns">
+    {{allConversations}}
   </div>
 </template>
 
