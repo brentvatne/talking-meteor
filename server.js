@@ -15,4 +15,3 @@ if (Meteor.isServer) {
     return Conversations.find({});
   })
 }
-
