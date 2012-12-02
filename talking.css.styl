@@ -1,3 +1,48 @@
-/* CSS declarations go here */
+border-radius(n)
+	-webkit-border-radius: n
+	-moz-border-radius: n
+	border-radius: n
+
+transition(n)
+	-webkit-transition: n
+	-moz-transition: n
+	transition: n
 
 @import 'bootstrap-responsive.min.css'
+@import 'bootstrap.min.css'
+
+header
+	padding: 10px 10px 10px 20px
+	background: #fd1e41
+	color: #7e0f20 !important
+	text-shadow: 0px 1px 0px rgba(255,255,255,0.25)
+	h1
+		padding: 0px
+		margin: 0px
+
+nav
+	background: #333
+	color: white
+	margin: 10px
+	padding: 10px 5px
+	border-radius(5px)
+	.login-button
+		text-align: center
+		padding: 10px 0px
+
+a.start-conversation
+	text-decoration: none
+	color: white
+
+a.start-conversation:hover
+	color: #333
+
+
+div.user
+	margin: 0px -5px
+	padding: 2px 10px
+	transition(padding 0.1s linear)
+
+div.user:hover, div.user.active
+	background: #eee
+	padding: 2px 10px 2px 30px

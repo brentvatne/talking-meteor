@@ -3,27 +3,33 @@
 </head>
 
 <body>
-    {{#if currentUser}}
+  <header>
     <h1>Van.io Talk</h1>
-  {{else}}
-    <h1>Sign in to start a persistent conversation with another user!</h1>
-  {{/if}}
+  </header>
   {{{render currentView}}}
 </body>
 
 <template name="hello">
   <div class="row-fluid">
-    <div class="span2">
-    {{loginButtons}}
-    <h3>Chat with:</h3>
-      {{#each otherUsers}}
-        <a href="#" class="start-conversation" data-id="{{this._id}}">
-          {{this.profile.name}}
-        </a>
-        <br/>
-      {{/each}}
+    <div class="span4">
+      <nav>
+        <div class="login-button">
+          {{#if currentUser}}
+            Logged in as {{loginButtons}}
+          {{else}}
+            {{loginButtons}}
+          {{/if}}
+        </div>
+        {{#each otherUsers}}
+            <a href="#" class="start-conversation" data-id="{{this._id}}">
+               <div class="user">
+                {{this.profile.name}}
+              </div>
+            </a>
+        {{/each}}
+      </nav>
     </div>
-    <div class="span10">
+    <div class="span8">
       <p>Ole!</p>
     </div>
   </div>
@@ -31,24 +37,32 @@
 
 <template name="conversation">
   <div class="row-fluid">
-    <div class="span2">
-    {{loginButtons}}
-    <h3>Chat with:</h3>
-      {{#each otherUsers}}
-        <a href="#" class="start-conversation" data-id="{{this._id}}">
-          {{this.profile.name}}
-        </a>
-        <br/>
-      {{/each}}
+    <div class="span4">
+      <nav>
+        <div class="login-button">
+          {{#if currentUser}}
+            Logged in as {{loginButtons}}
+          {{else}}
+            {{loginButtons}}
+          {{/if}}
+        </div>
+        {{#each otherUsers}}
+            <a href="#" class="start-conversation" data-id="{{this._id}}">
+               <div class="user">
+                {{this.profile.name}}
+              </div>
+            </a>
+        {{/each}}
+      </nav>
     </div>
-    <div class="span10">
+    <div class="span8">
       {{#each messages}}
         {{this.sender}}: {{this.text}}<br/>
       {{/each}}
 
       <form class="new-message-form">
         <input type="text" class="new-message-text"/>
-        <button class="submit">Send</button>
+        <button class="btn submit">Send</button>
       </form>
     </div>
   </div>
