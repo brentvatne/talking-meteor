@@ -23,20 +23,6 @@ if (Meteor.isClient) {
     return Meteor.users.find({_id: { $ne: Meteor.userId() }});
   };
 
-  var startConversation = function(e) {
-    e.preventDefault();
-    var userId = $(e.target).data('id');
-
-    // Create the conversation
-    var conversationId = Meteor.call('findOrCreateConversation', {
-      firstUserId: Meteor.userId(),
-      secondUserId: userId
-    }, function(err, conversationId) {
-      Router.conversation(conversationId, userId); 
-      //userId passed into routes and used to identify which conversation is active
-    });
-  };
-
   Template.conversation.events({
     'submit .new-message-form' : function(e) {
       e.preventDefault();
@@ -55,7 +41,19 @@ if (Meteor.isClient) {
   });
 
   Template.navbar.events({
-    'click .start-conversation' : function(e){startConversation(e)}
+    'click .start-conversation' : function(e) {
+      e.preventDefault();
+      var userId = $(e.target).data('id');
+
+      // Create the conversation
+      var conversationId = Meteor.call('findOrCreateConversation', {
+        firstUserId: Meteor.userId(),
+        secondUserId: userId
+      }, function(err, conversationId) {
+        Router.conversation(conversationId, userId); 
+        //userId passed into routes and used to identify which conversation is active
+      });
+     }
   });
 
   Template.conversation.messages = function() {
