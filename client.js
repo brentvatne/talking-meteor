@@ -12,6 +12,20 @@ if (Meteor.isClient) {
     }
   });
 
+  var startConversation = function(e) {
+      e.preventDefault();
+      var userId = $(e.target).data('id');
+
+      // Create the conversation
+      var conversationId = Meteor.call('findOrCreateConversation', {
+        firstUserId: Meteor.userId(),
+        secondUserId: userId
+      }, function(err, conversationId) {
+        Router.conversation(conversationId, userId); 
+        //userId passed into routes and used to identify which conversation is active
+      });
+    }; 
+
   Meteor.autosubscribe(function() {
     Meteor.subscribe('conversations', Session.get('conversationId'));
   });
@@ -27,18 +41,7 @@ if (Meteor.isClient) {
   }; //there's got to be a more elegant way to do this...
 
   Template.hello.events({
-    'click .start-conversation' : function(e) {
-      e.preventDefault();
-      var userId = $(e.target).data('id');
-
-      // Create the conversation
-      var conversationId = Meteor.call('findOrCreateConversation', {
-        firstUserId: Meteor.userId(),
-        secondUserId: userId
-      }, function(err, conversationId) {
-        Router.conversation(conversationId);
-      });
-    }
+    'click .start-conversation' : function(e){startConversation(e)}
   });
 
   Template.conversation.events({
@@ -54,25 +57,32 @@ if (Meteor.isClient) {
       });
     },
 
-    'click .start-conversation' : function(e) {
-      e.preventDefault();
-      var userId = $(e.target).data('id');
-
-      // Create the conversation
-      var conversationId = Meteor.call('findOrCreateConversation', {
-        firstUserId: Meteor.userId(),
-        secondUserId: userId
-      }, function(err, conversationId) {
-        Router.conversation(conversationId);
-      });
-    } //again, more elegance here would be nice...
+    'click .start-conversation' : function(e){startConversation(e)}
   });
 
   Template.conversation.messages = function() {
-    conversation = Conversations.findOne({_id: Session.get('conversationId')});
-    messages = conversation.messages;
-    return messages || [];
+    var conversation = Conversations.findOne({_id: Session.get('conversationId')});
+    var messages = conversation.messages;
+    var username = Meteor.user().profile.name;
+    var ret = '';
+    for (i in messages) {
+      if (username == messages[i].sender) {
+        ret += "You";
+      }
+      else {
+        ret += messages[i].sender;
+      }
+       ret += ": " + messages[i].text + "\n";
+    }
+    return new Handlebars.SafeString(ret);
   };
+
+  Template.conversation.rendered = function() {
+    var userId = Session.get('conversationUserId');
+    $("nav").find("a[data-id='" + userId + "']").addClass('active');
+    $('.messages').scrollTop($('.messages')[0].scrollHeight);
+    $(".new-message-text").focus();
+  } //this code is loaded once the page is finished rendering, basically $(document).ready
 
   if (Handlebars) {
     Handlebars.registerHelper('currentView', function() {
@@ -83,17 +93,5 @@ if (Meteor.isClient) {
       if (Template[name])
         return Template[name]();
     });
-
   }
 }
-
-
-
-
-
-
-
-
-
-
-

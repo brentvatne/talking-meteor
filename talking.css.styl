@@ -11,14 +11,26 @@ transition(n)
 @import 'bootstrap-responsive.min.css'
 @import 'bootstrap.min.css'
 
+body
+	background: url('arches.png')
+	.new-message-text, .messages, .btn
+	.login-button, .login-display-name, nav
+		font-size: 15px
+
 header
-	padding: 10px 10px 10px 20px
+	padding: 10px 10px 0px 20px
 	background: #fd1e41
 	color: #7e0f20 !important
 	text-shadow: 0px 1px 0px rgba(255,255,255,0.25)
-	h1
+	line-height: 50px
+	.app-title
+		font-size: 50px
+		font-weight: bold
+	.app-title, img
 		padding: 0px
 		margin: 0px
+	img
+		margin-top: -25px
 
 nav
 	background: #333
@@ -33,16 +45,23 @@ nav
 a.start-conversation
 	text-decoration: none
 	color: white
+	display: block
 
-a.start-conversation:hover
-	color: #333
-
-
-div.user
+.user
 	margin: 0px -5px
 	padding: 2px 10px
 	transition(padding 0.1s linear)
 
-div.user:hover, div.user.active
-	background: #eee
-	padding: 2px 10px 2px 30px
+.user:hover, .user.active
+	background: #fd1e41
+	padding: 2px 10px 2px 20px
+	color: white
+
+.messages
+	width: 100%
+	height: 300px
+	cursor: default
+	background: white !important
+	border: 1px solid rgba(0, 0, 0, 0.1)
+	margin-top: 10px
+	line-height: 18px

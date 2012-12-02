@@ -1,10 +1,11 @@
 <head>
-  <title>Chat app</title>
+  <title>Van.io Talk</title>
 </head>
 
 <body>
   <header>
-    <h1>Van.io Talk</h1>
+    <img src="../logo.svg" height="45" width="50" />
+    <span class="app-title">Van.io Talk</span>
   </header>
   {{{render currentView}}}
 </body>
@@ -12,25 +13,23 @@
 <template name="hello">
   <div class="row-fluid">
     <div class="span4">
-      <nav>
-        <div class="login-button">
-          {{#if currentUser}}
-            Logged in as {{loginButtons}}
-          {{else}}
-            {{loginButtons}}
-          {{/if}}
-        </div>
-        {{#each otherUsers}}
-            <a href="#" class="start-conversation" data-id="{{this._id}}">
-               <div class="user">
-                {{this.profile.name}}
-              </div>
-            </a>
-        {{/each}}
-      </nav>
+    <nav>
+      <div class="login-button">
+        {{#if currentUser}}
+          Logged in as {{loginButtons}}
+        {{else}}
+          {{loginButtons}}
+        {{/if}}
+      </div>
+      {{#each otherUsers}}
+        <a href="#" class="start-conversation user" data-id="{{this._id}}">
+            {{this.profile.name}}
+        </a>
+      {{/each}}
+    </nav>
     </div>
-    <div class="span8">
-      <p>Ole!</p>
+    <div class="span7">
+      <p>Olé!</p>
     </div>
   </div>
 </template>
@@ -38,31 +37,26 @@
 <template name="conversation">
   <div class="row-fluid">
     <div class="span4">
-      <nav>
-        <div class="login-button">
-          {{#if currentUser}}
-            Logged in as {{loginButtons}}
-          {{else}}
-            {{loginButtons}}
-          {{/if}}
-        </div>
-        {{#each otherUsers}}
-            <a href="#" class="start-conversation" data-id="{{this._id}}">
-               <div class="user">
-                {{this.profile.name}}
-              </div>
-            </a>
-        {{/each}}
-      </nav>
-    </div>
-    <div class="span8">
-      {{#each messages}}
-        {{this.sender}}: {{this.text}}<br/>
+    <nav>
+      <div class="login-button">
+        {{#if currentUser}}
+          Logged in as {{loginButtons}}
+        {{else}}
+          {{loginButtons}}
+        {{/if}}
+      </div>
+      {{#each otherUsers}}
+        <a href="#" class="start-conversation user" data-id="{{this._id}}">
+            {{this.profile.name}}
+        </a>
       {{/each}}
-
+    </nav>
+    </div>
+    <div class="span7">
+      <textarea class="messages" disabled="disabled">{{messages}}</textarea>
       <form class="new-message-form">
         <input type="text" class="new-message-text"/>
-        <button class="btn submit">Send</button>
+        <button class="btn submit">Fly pigeon, fly!</button>
       </form>
     </div>
   </div>
