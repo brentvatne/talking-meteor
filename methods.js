@@ -21,9 +21,10 @@ Meteor.methods({
   },
 
   createMessage: function(options) {
+    var index = Conversations.findOne({_id: options.conversationId}).messages.length;
     Conversations.update({_id: options.conversationId}, {
-      $addToSet: {messages: {text: options.text, sender: options.sender}}
+      $addToSet: {messages: {text: options.text, sender: options.sender, i: index}}
     });
   }
 
-})
+});

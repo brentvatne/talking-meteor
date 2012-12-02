@@ -12,37 +12,29 @@ if (Meteor.isClient) {
     }
   });
 
-  var startConversation = function(e) {
-      e.preventDefault();
-      var userId = $(e.target).data('id');
-
-      // Create the conversation
-      var conversationId = Meteor.call('findOrCreateConversation', {
-        firstUserId: Meteor.userId(),
-        secondUserId: userId
-      }, function(err, conversationId) {
-        Router.conversation(conversationId, userId); 
-        //userId passed into routes and used to identify which conversation is active
-      });
-    }; 
-
   Meteor.autosubscribe(function() {
     Meteor.subscribe('conversations', Session.get('conversationId'));
   });
 
   Meteor.subscribe('allUsers');
 
-  Template.hello.otherUsers = function() {
+  Template.navbar.otherUsers = function() {
     return Meteor.users.find({_id: { $ne: Meteor.userId() }});
   };
 
-  Template.conversation.otherUsers = function() {
-    return Meteor.users.find({_id: { $ne: Meteor.userId() }});
-  }; //there's got to be a more elegant way to do this...
+  var startConversation = function(e) {
+    e.preventDefault();
+    var userId = $(e.target).data('id');
 
-  Template.hello.events({
-    'click .start-conversation' : function(e){startConversation(e)}
-  });
+    // Create the conversation
+    var conversationId = Meteor.call('findOrCreateConversation', {
+      firstUserId: Meteor.userId(),
+      secondUserId: userId
+    }, function(err, conversationId) {
+      Router.conversation(conversationId, userId); 
+      //userId passed into routes and used to identify which conversation is active
+    });
+  };
 
   Template.conversation.events({
     'submit .new-message-form' : function(e) {
@@ -53,10 +45,15 @@ if (Meteor.isClient) {
         text: messageText,
         sender: Meteor.user().profile.name
       }, function(err, result) {
-        // Do nothing
+        $('input.new-message-text').val(''); 
+        //required for some reason when I add id="appendedInputButton" to .new-message-text
+        //this also hilariously fixes the bug that could cause a user's text to disappear when
+        //they received a message from the person that they were typing to
       });
-    },
+    }
+  });
 
+  Template.navbar.events({
     'click .start-conversation' : function(e){startConversation(e)}
   });
 
@@ -74,11 +71,12 @@ if (Meteor.isClient) {
       }
        ret += ": " + messages[i].text + "\n";
     }
-    return new Handlebars.SafeString(ret);
+    return ret;
   };
 
   Template.conversation.rendered = function() {
     var userId = Session.get('conversationUserId');
+    $("nav a.active").removeClass('active');
     $("nav").find("a[data-id='" + userId + "']").addClass('active');
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
     $(".new-message-text").focus();
