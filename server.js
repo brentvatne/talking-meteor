@@ -12,6 +12,11 @@ if (Meteor.isServer) {
     // to access any but their own conversations), then this fails sometimes.
     // Clearly giving the user access to all conversations is a security
     // flaw though.
+
+    // It probably fails because the userId can either be the first user or the
+    // second user. In the 'findOrCreateConversation' method, it will search for
+    // the user as the seconduser after it can't find it as the firstuser, but
+    // before resorting to creating a new conversation.
     return Conversations.find({});
   })
 }
