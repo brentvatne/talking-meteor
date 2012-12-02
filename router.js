@@ -6,9 +6,9 @@ var AppRouter = Backbone.Router.extend({
   },
 
   hello: function() {
-    Session.set('currentView', 'hello');
     Session.set('conversationId', '');
     Session.set('conversationUserId', '');
+    Session.set('currentView', 'hello');
     this.navigate('', {trigger: true});
   },
 

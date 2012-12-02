@@ -4,6 +4,7 @@ if (Meteor.isClient) {
     Session.set('currentView', 'hello');
     Backbone.history.start({pushState: true});
     Router.hello();
+    checkForNewMessages();
   });
 
   Accounts.ui.config({
@@ -21,6 +22,37 @@ if (Meteor.isClient) {
   Template.navbar.otherUsers = function() {
     return Meteor.users.find({_id: { $ne: Meteor.userId() }});
   };
+
+  // var checkForNewMessages = function(){
+  //   $("nav a.user").each(function(i, val){
+  //     var element = $(this);
+  //     var userId = element.data('id');
+  //     var conversation = Meteor.call('findConversationLength',{
+  //       firstUserId: Meteor.userId(),
+  //       secondUserId: userId
+  //     }, function(err, conversation){
+  //       var lastViewedCount = Session.get('lastViewedCount');
+  //       if (typeof lastViewedCount === 'undefined') {
+  //         lastViewedCount = {};
+  //       }
+  //       alert(JSON.stringify(lastViewedCount));
+  //       if (typeof lastViewedCount[conversationId]) {
+  //         lastViewedCount[conversationId] = '';
+  //       }
+  //       if (conversation.messagesLength != lastViewedCount[conversationId]) {
+  //         alert(conversation.messagesLength);
+  //         element.addClass('unread-message');
+  //       }
+  //       else {
+  //         element.removeClass('unread-message');
+  //       }
+  //     });
+  //   });
+  // }
+
+  // Meteor.setInterval(function(){
+  //   checkForNewMessages();
+  // },2000);
 
   var startConversation = function(e) {
     e.preventDefault();
@@ -75,12 +107,23 @@ if (Meteor.isClient) {
   };
 
   Template.conversation.rendered = function() {
+    var conversationId = Session.get('conversationId');
+    
+    // var conversation = Conversations.findOne({_id: conversationId});
+    // var lastViewedCount = Session.get('lastViewedCount');
+    // if (typeof lastViewedCount == 'undefined') lastViewedCount = {};
+    // //gets the count of messages as you last viewed them
+    // lastViewedCount[conversationId] = conversation.messages.length;
+    // //sets the count of messages for this conversation
+    // Session.set('lastViewedCount', lastViewedCount);
+    // //stores the value in the session
+
     var userId = Session.get('conversationUserId');
-    $("nav a.active").removeClass('active');
+    $("nav a.active").removeClass('active'); //
     $("nav").find("a[data-id='" + userId + "']").addClass('active');
-    $('.messages').scrollTop($('.messages')[0].scrollHeight);
+    $('.messages').scrollTop($('.messages')[0].scrollHeight); // scroll message boxes down to bottom
     $(".new-message-text").focus();
-  } //this code is loaded once the page is finished rendering, basically $(document).ready
+  } // this code is loaded once the page is finished rendering, basically $(document).ready
 
   if (Handlebars) {
     Handlebars.registerHelper('currentView', function() {

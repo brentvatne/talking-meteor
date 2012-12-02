@@ -18,5 +18,5 @@ if (Meteor.isServer) {
     // the user as the seconduser after it can't find it as the firstuser, but
     // before resorting to creating a new conversation.
     return Conversations.find({});
-  })
+  });
 }
