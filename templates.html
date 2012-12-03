@@ -1,30 +1,49 @@
 <head>
-  <title>Chat app</title>
+  <title>Van.io Talk</title>
 </head>
 
 <body>
+  <header>
+    <img src="../logo.svg" height="45" width="50" />
+    <span class="app-title">Van.io Talk</span>
+  </header>
+  <div class="row-fluid">
+    <div class="span4">
+      {{> navbar}}
+    </div>
   {{{render currentView}}}
+  </div>
 </body>
 
 <template name="hello">
-  <h1>Sign in to start a persistent conversation with another user!</h1>
-  {{loginButtons}}
-  <h3>Chat with:</h3>
-  {{#each otherUsers}}
-    <a href="#" class="start-conversation" data-id="{{this._id}}">
-      {{this.profile.name}}
-    </a>
-    <br/>
-  {{/each}}
+    <div class="span7">
+      <p></p>
+    </div>
 </template>
 
 <template name="conversation">
-  {{#each messages}}
-    {{this.sender}}: {{this.text}}<br/>
-  {{/each}}
+    <div class="span7">
+      <textarea class="messages" rows="20" disabled="disabled">{{messages}}</textarea>
+      <form class="new-message-form input-append">
+          <input type="text" class="new-message-text span8" id="appendedInputButton" />
+          <button class="btn btn-sendmessage submit">Fly, pigeon, fly!</button>
+      </form>
+    </div>
+</template>
 
-  <form class="new-message-form">
-    <input type="text" class="new-message-text"/>
-    <button class="submit">Send</button>
-  </form>
+<template name="navbar">
+  <nav>
+      <div class="login-button">
+        {{#if currentUser}}
+          Logged in as {{loginButtons}}
+        {{else}}
+          {{loginButtons}}
+        {{/if}}
+      </div>
+      {{#each otherUsers}}
+        <a href="#" class="start-conversation user" data-id="{{this._id}}">
+            {{this.profile.name}}
+        </a>
+      {{/each}}
+    </nav>
 </template>
